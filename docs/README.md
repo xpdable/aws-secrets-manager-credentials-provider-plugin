@@ -10,18 +10,10 @@ Access credentials from AWS Secrets Manager in your Jenkins jobs.
 
 ## Features
 
-- Read-only view of Secrets Manager.
-- Credential metadata caching (duration: 5 minutes).
+- Read-only credentials provider for Secrets Manager.
+- Credential metadata caching (default: 5 minutes).
 - Jenkins [Configuration As Code](https://github.com/jenkinsci/configuration-as-code-plugin) support.
 - [Cross-account](http://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) Secrets Manager support with IAM roles.
-
-Settings:
-
-- Filters
-  - Filter secrets by tag
-- Endpoint Configuration
-  - Service Endpoint
-  - Signing Region
 
 ## Setup 
 
@@ -218,6 +210,7 @@ You can set plugin configuration using Jenkins [Configuration As Code](https://g
 ```yaml
 unclassified:
   awsCredentialsProvider:
+    cacheDuration: 1
     filters:
       tag:
         key: product

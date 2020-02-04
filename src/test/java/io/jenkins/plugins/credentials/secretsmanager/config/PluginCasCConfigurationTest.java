@@ -6,9 +6,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-
 public class PluginCasCConfigurationTest extends AbstractPluginConfigurationTest {
     @Rule
     public JenkinsRule r = new JenkinsConfiguredWithCodeRule();
@@ -16,6 +13,11 @@ public class PluginCasCConfigurationTest extends AbstractPluginConfigurationTest
     @Override
     protected PluginConfiguration getPluginConfiguration() {
         return (PluginConfiguration) r.jenkins.getDescriptor(PluginConfiguration.class);
+    }
+
+    @Override
+    protected void setCacheDuration(int cacheDuration) {
+        // no-op (configured by annotations)
     }
 
     @Override
@@ -33,6 +35,13 @@ public class PluginCasCConfigurationTest extends AbstractPluginConfigurationTest
     @ConfiguredWithCode("/default.yml")
     public void shouldHaveDefaultConfiguration() {
         super.shouldHaveDefaultConfiguration();
+    }
+
+    @Override
+    @Test
+    @ConfiguredWithCode("/custom-cache-duration.yml")
+    public void shouldCustomiseCacheDuration() {
+        super.shouldCustomiseCacheDuration();
     }
 
     @Override

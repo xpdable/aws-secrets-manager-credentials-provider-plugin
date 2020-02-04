@@ -13,6 +13,15 @@ import jenkins.model.GlobalConfiguration;
 @Symbol("awsCredentialsProvider")
 public class PluginConfiguration extends GlobalConfiguration {
 
+    private static final int DEFAULT_CACHE_DURATION = 5;
+
+    /**
+     * The credential cache duration, in minutes.
+     *
+     * A value of 0 or less disables the cache.
+     */
+    private Integer cacheDuration;
+
     /**
      * The AWS Secrets Manager endpoint configuration. If this is null, the default will be used. If
      * this is specified, the user's override will be used.
@@ -23,10 +32,24 @@ public class PluginConfiguration extends GlobalConfiguration {
 
     public PluginConfiguration() {
         load();
+
+        if (cacheDuration == null) {
+            cacheDuration = DEFAULT_CACHE_DURATION;
+        }
     }
 
     public static PluginConfiguration getInstance() {
         return all().get(PluginConfiguration.class);
+    }
+
+    public int getCacheDuration() {
+        return cacheDuration;
+    }
+
+    @DataBoundSetter
+    @SuppressWarnings("unused")
+    public void setCacheDuration(int cacheDuration) {
+        this.cacheDuration = cacheDuration;
     }
 
     public EndpointConfiguration getEndpointConfiguration() {

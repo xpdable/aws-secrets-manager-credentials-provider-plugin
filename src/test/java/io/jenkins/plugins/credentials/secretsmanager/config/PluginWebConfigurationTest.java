@@ -17,6 +17,13 @@ public class PluginWebConfigurationTest extends AbstractPluginConfigurationTest 
     }
 
     @Override
+    protected void setCacheDuration(int cacheDuration) {
+        r.configure(form -> {
+            form.getInputByName("_.cacheDuration").setValueAttribute(String.valueOf(cacheDuration));
+        });
+    }
+
+    @Override
     protected void setEndpointConfiguration(String serviceEndpoint, String signingRegion) {
         r.configure(form -> {
             form.getInputByName("_.endpointConfiguration").setChecked(true);
@@ -37,7 +44,7 @@ public class PluginWebConfigurationTest extends AbstractPluginConfigurationTest 
     }
 
     @Test
-    public void shouldCustomiseAndResetConfiguration() {
+    public void shouldCustomiseAndResetOptionalFields() {
         r.configure(form -> {
             form.getInputByName("_.endpointConfiguration").setChecked(true);
             form.getInputByName("_.serviceEndpoint").setValueAttribute("http://localhost:4584");

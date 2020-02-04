@@ -9,6 +9,8 @@ public abstract class AbstractPluginConfigurationTest {
 
     protected abstract PluginConfiguration getPluginConfiguration();
 
+    protected abstract void setCacheDuration(int cacheDuration);
+
     protected abstract void setEndpointConfiguration(String serviceEndpoint, String signingRegion);
 
     protected abstract void setTagFilters(String key, String value);
@@ -18,9 +20,22 @@ public abstract class AbstractPluginConfigurationTest {
         final PluginConfiguration config = getPluginConfiguration();
 
         assertSoftly(s -> {
+            s.assertThat(config.getCacheDuration()).as("Cache Duration").isEqualTo(5);
             s.assertThat(config.getEndpointConfiguration()).as("Endpoint Configuration").isNull();
             s.assertThat(config.getFilters()).as("Filters").isNull();
         });
+    }
+
+    @Test
+    public void shouldCustomiseCacheDuration() {
+        // Given
+        setCacheDuration(1);
+
+        // When
+        final PluginConfiguration config = getPluginConfiguration();
+
+        // Then
+        assertThat(config.getCacheDuration()).isEqualTo(1);
     }
 
     @Test
